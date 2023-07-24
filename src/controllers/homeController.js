@@ -19,9 +19,8 @@ let postCRUD = async (req, res) => {
   // console.log(req.body);
   let message = await CRUDService.createNewUser(req.body);
   console.log(message);
-  return res.send("post CRUD");
+  return res.redirect("/get-crud");
 };
-
 let displayGetCRUD = async (req, res) => {
   let data = await CRUDService.getAllUser();
   // console.log(data);
@@ -46,6 +45,14 @@ let updateUserCRUD = async (req, res) => {
   return res.redirect("/get-crud");
   // updateUserdate()
 };
+
+let deleteUser = async (req, res) => {
+  let id = req.params.id;
+  // console.log(">>>check id: ", id);
+  await CRUDService.deleteUser(id);
+  return res.redirect("/get-crud");
+};
+
 module.exports = {
   getHomePage: getHomePage,
   getAboutPage: getAboutPage,
@@ -54,4 +61,5 @@ module.exports = {
   displayGetCRUD,
   getEditCRUD,
   updateUserCRUD,
+  deleteUser,
 };
