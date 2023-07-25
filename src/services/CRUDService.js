@@ -77,16 +77,13 @@ let updateUserData = (data) => {
 let deleteUser = (userId) => {
   return new Promise(async (resolve, reject) => {
     try {
-      if (userId) {
-        await db.User.destroy({
-          where: {
-            id: userId,
-          },
-        });
-        resolve("delete OK");
-      } else {
-        resolve("delete fail");
+      let user = await db.User.findOne({
+        where: { id: userId },
+      });
+      if (user) {
+        await user.destroy();
       }
+      resolve("OK");
     } catch (e) {
       reject(e);
     }
