@@ -4,11 +4,18 @@
      height: 100vh;
      .login-container{
           width: 400px;
-          height: 100%;
-          margin: 0 auto;
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          height: 540px;
+          margin: auto;
+          // margin: 0 auto;
           //border: 1px solid red;
+          // margin: 100px 50px 100px 50px ;
           border-radius: 10px;
-          background-color: white;
+          background-color: rgba(255,255,255,0.8);
           .login-content{
                padding: 10px;
                .text-login{
@@ -19,6 +26,19 @@
                }
                .login-input{
                     margin:7px 0;
+                    .text-label{
+                         margin-left: 20px;
+                         color: rgba(0,0,0,0.5);
+                    }
+                    .custom-input-password{
+                         position: relative;
+                         i{
+                              position: absolute;
+                              right: 5px;
+                              top: 10px;
+                              cursor: pointer;
+                         }
+                    }
                }
                .btn-login{
                     width: 100%;
@@ -42,7 +62,7 @@
                     .google{
                          display:flex;
                          font-size: 30px;
-                         background-color: red;
+                         background-color: #a74949;
                          border-radius: 50%;
                          height:50px;
                          width: 50px;
@@ -54,7 +74,7 @@
                     .facebook{
                          display:flex;
                          font-size: 30px;
-                         background-color: blue;
+                         background-color: #1754b2;
                          border-radius: 50%;
                          height:50px;
                          width: 50px;

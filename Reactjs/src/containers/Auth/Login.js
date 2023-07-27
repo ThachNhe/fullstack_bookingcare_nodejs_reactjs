@@ -11,8 +11,35 @@ import { divide } from "lodash";
 class Login extends Component {
   constructor(props) {
     super(props);
-    this.btnLogin = React.createRef();
+    this.state = {
+      username: "",
+      password: "",
+      isShowPassword: false,
+    };
   }
+
+  handleOnchangeUsername = (event) => {
+    this.setState({
+      username: event.target.value,
+    });
+  };
+
+  handleOnchangePassword = (event) => {
+    this.setState({
+      password: event.target.value,
+    });
+  };
+
+  handleLogin = () => {
+    let { username, password } = this.state;
+    console.log(username);
+    console.log(password);
+  };
+  handleShowHidePassword = () => {
+    this.setState({
+      isShowPassword: !this.state.isShowPassword,
+    });
+  };
 
   render() {
     return (
@@ -22,23 +49,52 @@ class Login extends Component {
             <div className="login-content row">
               <div className="col-12 text-login">LOGIN</div>
               <div className="col-12 form-group login-input">
-                <label>Username:</label>
+                <label className="text-label">Username:</label>
                 <input
                   type="text"
                   className="form-control"
                   placeholder="Enter your username"
+                  value={this.state.username}
+                  onChange={(event) => {
+                    this.handleOnchangeUsername(event);
+                  }}
                 />
               </div>
               <div className="col-12 form-group login-input">
-                <label>Password:</label>
-                <input
-                  type="password"
-                  className="form-control"
-                  placeholder="Enter your password"
-                />
+                <label className="text-label">Password:</label>
+                <div className="custom-input-password">
+                  <input
+                    className="form-control"
+                    type={this.state.isShowPassword ? "text" : "password"}
+                    placeholder="Enter your password"
+                    onChange={(event) => {
+                      this.handleOnchangePassword(event);
+                    }}
+                  />
+                  <span
+                    onClick={() => {
+                      this.handleShowHidePassword();
+                    }}
+                  >
+                    <i
+                      className={
+                        !this.state.isShowPassword
+                          ? "far fa-eye-slash"
+                          : "far fa-eye"
+                      }
+                    ></i>
+                  </span>
+                </div>
               </div>
               <div className="col-12 ">
-                <button className="btn-login">Login</button>
+                <button
+                  className="btn-login"
+                  onClick={() => {
+                    this.handleLogin();
+                  }}
+                >
+                  Login
+                </button>
               </div>
               <div className="col-12">
                 <span className="forgot-password">Forgot your password</span>
