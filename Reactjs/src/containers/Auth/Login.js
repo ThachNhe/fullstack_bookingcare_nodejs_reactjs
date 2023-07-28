@@ -33,6 +33,7 @@ class Login extends Component {
   };
 
   handleLogin = async () => {
+    console.log("OK");
     this.setState({
       arrMessage: "",
     });
@@ -50,7 +51,7 @@ class Login extends Component {
         this.props.userLoginSuccess(data.user);
       }
     } catch (error) {
-      console.log(error.response.data.message);
+      // console.log(error.response.data.message);
       if (error.response) {
         if (error.response.data) {
           this.setState({

@@ -71,12 +71,13 @@ let GetAllUsers = (userId) => {
 
       if (userId && userId !== "ALL") {
         users = await db.User.findOne({
+          where: { id: userId },
           attributes: {
             exclude: ["password"],
           },
         });
       }
-      console.log(users);
+      //console.log(users);
       resolve(users);
     } catch (e) {
       reject(e);
