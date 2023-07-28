@@ -41,7 +41,7 @@ class Login extends Component {
       console.log(data.userData);
       if (data && data.userData.errCode !== 0) {
         this.setState({
-          arrMessage: data.message,
+          arrMessage: data.userData.arrMessage,
         });
       }
 

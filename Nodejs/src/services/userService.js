@@ -41,7 +41,7 @@ let handUserLogin = (email, password) => {
 };
 
 let checkUserEmail = (userEmail) => {
-  return new Promise(async (resolve, reject0) => {
+  return new Promise(async (resolve, reject) => {
     try {
       let user = await db.User.findOne({
         where: { email: userEmail },
@@ -57,4 +57,30 @@ let checkUserEmail = (userEmail) => {
   });
 };
 
-module.exports = { handUserLogin };
+let GetAllUsers = (userId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let users = "";
+      if (userId === "ALL") {
+        users = await db.User.findAll({
+          attributes: {
+            exclude: ["password"],
+          },
+        });
+      }
+
+      if (userId && userId !== "ALL") {
+        users = await db.User.findOne({
+          attributes: {
+            exclude: ["password"],
+          },
+        });
+      }
+      console.log(users);
+      resolve(users);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+module.exports = { handUserLogin: handUserLogin, GetAllUsers: GetAllUsers };
