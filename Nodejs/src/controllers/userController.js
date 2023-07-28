@@ -7,18 +7,17 @@ let handleLogin = async (req, res) => {
   //access token: JWT
   let email = req.body.email;
   let password = req.body.password;
+
   if (!email || !password) {
     return res.status(500).json({
-      arrCode: 1,
-      massage: "missing input parameter",
+      errCode: 1,
+      message: "missing input parameter",
     });
   }
   let userData = await userService.handUserLogin(email, password);
 
   return res.status(200).json({
     userData,
-    arrCode: 0,
-    massage: "OK",
   });
 };
 

@@ -7,6 +7,7 @@ import * as actions from "../../store/actions";
 import "./Login.scss";
 import { FormattedMessage } from "react-intl";
 import { divide } from "lodash";
+import { handleLoginAPI } from "../../services/userService";
 
 class Login extends Component {
   constructor(props) {
@@ -15,6 +16,7 @@ class Login extends Component {
       username: "",
       password: "",
       isShowPassword: false,
+      arrMessage: "",
     };
   }
 
@@ -30,11 +32,35 @@ class Login extends Component {
     });
   };
 
-  handleLogin = () => {
-    let { username, password } = this.state;
-    console.log(username);
-    console.log(password);
+  handleLogin = async () => {
+    this.setState({
+      arrMessage: "",
+    });
+    try {
+      let data = await handleLoginAPI(this.state.username, this.state.password);
+      console.log(data.userData);
+      if (data && data.userData.errCode !== 0) {
+        this.setState({
+          arrMessage: data.message,
+        });
+      }
+
+      if (data && data.userData.errCode === 0) {
+        console.log("login succeed");
+        this.props.userLoginSuccess(data.user);
+      }
+    } catch (error) {
+      console.log(error.response.data.message);
+      if (error.response) {
+        if (error.response.data) {
+          this.setState({
+            arrMessage: error.response.data.message,
+          });
+        }
+      }
+    }
   };
+
   handleShowHidePassword = () => {
     this.setState({
       isShowPassword: !this.state.isShowPassword,
@@ -86,6 +112,9 @@ class Login extends Component {
                   </span>
                 </div>
               </div>
+              <div className="col-12" style={{ color: "red" }}>
+                {this.state.arrMessage}
+              </div>
               <div className="col-12 ">
                 <button
                   className="btn-login"
@@ -124,9 +153,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     navigate: (path) => dispatch(push(path)),
-    adminLoginSuccess: (adminInfo) =>
-      dispatch(actions.adminLoginSuccess(adminInfo)),
-    adminLoginFail: () => dispatch(actions.adminLoginFail()),
+    // userLoginFail: () => dispatch(actions.adminLoginFail()),
+    userLoginSuccess: (userInfor) =>
+      dispatch(actions.userLoginSuccess(userInfor)),
   };
 };
 
