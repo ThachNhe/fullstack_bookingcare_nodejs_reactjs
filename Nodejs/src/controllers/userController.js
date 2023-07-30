@@ -37,8 +37,47 @@ let handleGetAllUsers = async (req, res) => {
     users,
   });
 };
+let handleCreateNewUser = async (req, res) => {
+  let data = await userService.createNewUser(req.body);
+  console.log("check new req.boy: ", req.body);
+  return res.status(200).json(data);
+};
+let HandleDeleteUser = async (req, res) => {
+  console.log("ID  = ", req.query.id);
+  if (!req.query.id) {
+    return res.status(500).json({
+      errCode: 1,
+      message: "id not exist",
+    });
+  }
+  let data = await userService.deleteUser(req.query.id);
+  console.log(data);
+  if (data.errCode === 0) {
+    return res.status(200).json(data);
+  }
+  if (data.errCode === 1) {
+    return res.status(500).json(data);
+  }
+};
+let handleEditUser = async (req, res) => {
+  console.log(req.body);
+  if (!req.body.id) {
+    return res.status(500).json({
+      errCode: 3,
+      message: "please fill out the form",
+    });
+  }
+  let data = await userService.editUser(req.body);
+  if (data.errCode === 0) {
+    return res.status(200).json(data);
+  }
+  return res.status(500).json(data);
+};
 
 module.exports = {
   handleLogin: handleLogin,
   handleGetAllUsers: handleGetAllUsers,
+  handleCreateNewUser: handleCreateNewUser,
+  HandleDeleteUser: HandleDeleteUser,
+  handleEditUser: handleEditUser,
 };
