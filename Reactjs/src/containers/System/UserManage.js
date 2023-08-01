@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
+import { emitter } from "../../utils/emitter";
 import "./userManage.scss";
 import {
   getAllUsers,
@@ -48,6 +49,7 @@ class UserManage extends Component {
         this.setState({
           isOpenModalUser: false,
         });
+        emitter.emit("EVENT_CLEAR_MODAL_DATA", { "id ": "your id" });
       }
       console.log("check res user : ", res);
     } catch (e) {
@@ -70,11 +72,16 @@ class UserManage extends Component {
   };
 
   handleDeleteUser = async (userId) => {
-    let check = await DeleteUserService(userId);
-    if (check) {
-      await this.GetAllUsersFromReact();
+    try {
+      let response = await DeleteUserService(userId);
+      if (response && response.errCode === 0) {
+        await this.GetAllUsersFromReact();
+      }
+    } catch (e) {
+      console.log(e);
     }
   };
+
   render() {
     // console.log("check render", this.state.arrayUsers);
     let arrUsers = this.state.arrayUsers;

@@ -43,14 +43,14 @@ let handleCreateNewUser = async (req, res) => {
   return res.status(200).json(data);
 };
 let HandleDeleteUser = async (req, res) => {
-  console.log("ID  = ", req.query.id);
-  if (!req.query.id) {
+  console.log("ID  = ", req.body.id);
+  if (!req.body.id) {
     return res.status(500).json({
       errCode: 1,
       message: "id not exist",
     });
   }
-  let data = await userService.deleteUser(req.query.id);
+  let data = await userService.deleteUser(req.body.id);
   console.log(data);
   if (data.errCode === 0) {
     return res.status(200).json(data);
