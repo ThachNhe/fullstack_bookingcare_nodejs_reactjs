@@ -20,26 +20,22 @@ class Login extends Component {
     };
   }
 
-  handleOnchangeUsername = (event) => {
+  handleOnchangeInput = (event, id) => {
+    let copyState = this.state;
+    copyState[id] = event.target.value;
     this.setState({
-      username: event.target.value,
-    });
-  };
-
-  handleOnchangePassword = (event) => {
-    this.setState({
-      password: event.target.value,
+      ...copyState,
     });
   };
 
   handleLogin = async () => {
-    console.log("OK");
     this.setState({
       arrMessage: "",
     });
+    // console.log("state : ", this.state);
     try {
       let data = await handleLoginAPI(this.state.username, this.state.password);
-      console.log(data.userData);
+      console.log("data from database : ", data.userData);
       if (data && data.userData.errCode !== 0) {
         this.setState({
           arrMessage: data.userData.arrMessage,
@@ -83,7 +79,7 @@ class Login extends Component {
                   placeholder="Enter your username"
                   value={this.state.username}
                   onChange={(event) => {
-                    this.handleOnchangeUsername(event);
+                    this.handleOnchangeInput(event, "username");
                   }}
                 />
               </div>
@@ -95,7 +91,7 @@ class Login extends Component {
                     type={this.state.isShowPassword ? "text" : "password"}
                     placeholder="Enter your password"
                     onChange={(event) => {
-                      this.handleOnchangePassword(event);
+                      this.handleOnchangeInput(event, "password");
                     }}
                   />
                   <span

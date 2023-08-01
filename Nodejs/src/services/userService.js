@@ -16,7 +16,7 @@ let handUserLogin = (email, password) => {
   return new Promise(async (resolve, reject) => {
     try {
       let userData = {};
-      let isExist = await checkUserEmail(email);
+      let isExist = await checkEmailExist(email);
       if (isExist) {
         //user already exist
         //compare password
@@ -96,6 +96,7 @@ let checkEmailExist = (email) => {
     }
   });
 };
+
 let createNewUser = (data) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -107,22 +108,23 @@ let createNewUser = (data) => {
           errCode: 1,
           message: "Your email is exist",
         });
+      } else {
+        let hashPasswordFromBcrypt = await hasUserPassword(data.password);
+        await db.User.create({
+          email: data.email,
+          password: hashPasswordFromBcrypt,
+          firstName: data.firstName,
+          lastName: data.lastName,
+          address: data.address,
+          phoneNumber: data.phonenumber,
+          gender: data.gender === "1" ? true : false,
+          roleId: data.roleId,
+        });
+        resolve({
+          errCode: 0,
+          message: "user is created succeed",
+        });
       }
-      let hashPasswordFromBcrypt = await hasUserPassword(data.password);
-      await db.User.create({
-        email: data.email,
-        password: hashPasswordFromBcrypt,
-        firstName: data.firstName,
-        lastName: data.lastName,
-        address: data.address,
-        phoneNumber: data.phonenumber,
-        gender: data.gender === "1" ? true : false,
-        roleId: data.roleId,
-      });
-      resolve({
-        errCode: 0,
-        message: "user is created succeed",
-      });
     } catch (e) {
       reject(e);
     }
