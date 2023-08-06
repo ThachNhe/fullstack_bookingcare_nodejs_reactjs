@@ -1,6 +1,4 @@
-.box-container{
-     display: flex;
-     flex-direction: column;
+
      .home-header-container{
           height: 60px;
           width: 100%;
@@ -93,7 +91,7 @@
      .home-header-banner{
           opacity: 0.8;
           background-image:url('../../assets/images/background.jpg');
-          height: 700px;
+          height: 555px;
           background-repeat: no-repeat;
           background-size: cover;
           background-position: center;
@@ -144,8 +142,9 @@
           }
           .content-down{
                // border: 1px solid blue;
+               // margin-bottom: 100px;
                height: 35%;
-               padding: 0 50px;
+               padding-bottom: 10px;
                display: flex;
                align-items: flex-end;
                justify-content: center;
@@ -184,5 +183,5 @@
           }
          
      }
-}
+
 

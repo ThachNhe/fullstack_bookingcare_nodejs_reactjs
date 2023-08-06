@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import HomeHeader from "./HomeHeader";
+import Specialty from "./Section/Specialty";
 import { connect } from "react-redux";
 class Homepage extends Component {
   state = {};
@@ -10,6 +11,7 @@ class Homepage extends Component {
     return (
       <div className="text-center">
         <HomeHeader></HomeHeader>
+        <Specialty></Specialty>
       </div>
     );
   }
