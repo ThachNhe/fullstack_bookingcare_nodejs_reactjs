@@ -8,6 +8,8 @@ import "slick-carousel/slick/slick.css";
 import GoodDoctor from "./Section/GoodDoctor";
 import "slick-carousel/slick/slick-theme.css";
 import HandBook from "./Section/HandBook";
+import About from "./Section/About";
+import HomeFooter from "./HomeFooter";
 class Homepage extends Component {
   state = {};
 
@@ -24,10 +26,12 @@ class Homepage extends Component {
     return (
       <div className="text-center">
         <HomeHeader></HomeHeader>
-        <Specialty settings={settings}></Specialty>
+        <Specialty settings={settings} />
         <MedicalFacility settings={settings} />
         <GoodDoctor settings={settings} />
         <HandBook settings={settings} />
+        <About />
+        <HomeFooter />
       </div>
     );
   }

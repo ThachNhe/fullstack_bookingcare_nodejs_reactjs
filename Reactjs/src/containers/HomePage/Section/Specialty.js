@@ -21,7 +21,7 @@ class Specialty extends Component {
             <div className="section-body">
               <Slider {...this.props.settings}>
                 <div className="section-customize">
-                  <div className="bg-image section-specialty" alt="" />
+                  <div className="bg-image section-specialty" />
                   <span>Cơ sương khớp 1</span>
                 </div>
                 <div className="section-customize">
