@@ -177,10 +177,33 @@ let editUser = (data) => {
     }
   });
 };
+let getAllCodeService = (typeInput) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (!typeInput) {
+        resolve({
+          errCode: 1,
+          errMessage: "missing require parameter",
+        });
+      } else {
+        let response = {};
+        let allCode = await db.Allcode.findAll({
+          where: { type: typeInput },
+        });
+        response.errCode = 0;
+        response.data = allCode;
+        resolve(response);
+      }
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 module.exports = {
   handUserLogin: handUserLogin,
   GetAllUsers: GetAllUsers,
   createNewUser: createNewUser,
   deleteUser: deleteUser,
   editUser: editUser,
+  getAllCodeService: getAllCodeService,
 };

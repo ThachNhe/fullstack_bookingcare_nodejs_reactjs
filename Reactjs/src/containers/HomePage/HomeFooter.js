@@ -17,7 +17,7 @@ class HomeFooter extends Component {
             <a
               className="more-info"
               href="https://www.facebook.com/stories/1230080321041475/?source=profile_highlight"
-              target="_blank"
+              target="blank"
             >
               &#8594; Click here &#8592;
             </a>
