@@ -4,6 +4,7 @@ import "./HomeHeader.scss";
 import logo from "../../assets/images/logo.svg";
 import { FormattedMessage } from "react-intl";
 import { LANGUAGES } from "../../utils";
+import * as actions from "../../store/actions";
 import { changeLanguageApp } from "../../store/actions/appActions";
 class HomeHeader extends Component {
   state = {};
