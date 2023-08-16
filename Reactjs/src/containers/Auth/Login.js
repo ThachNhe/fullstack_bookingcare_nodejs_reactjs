@@ -35,7 +35,7 @@ class Login extends Component {
     // console.log("state : ", this.state);
     try {
       let data = await handleLoginAPI(this.state.username, this.state.password);
-      console.log("data from database : ", data.userData);
+      // console.log("data from database : ", data.userData);
       if (data && data.userData.errCode !== 0) {
         this.setState({
           arrMessage: data.userData.arrMessage,
@@ -43,8 +43,7 @@ class Login extends Component {
       }
 
       if (data && data.userData.errCode === 0) {
-        console.log("login succeed");
-        this.props.userLoginSuccess(data.user);
+        this.props.userLoginSuccess(data.userData.user);
       }
     } catch (error) {
       // console.log(error.response.data.message);
@@ -151,8 +150,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     navigate: (path) => dispatch(push(path)),
     // userLoginFail: () => dispatch(actions.adminLoginFail()),
-    userLoginSuccess: (userInfor) =>
-      dispatch(actions.userLoginSuccess(userInfor)),
+    userLoginSuccess: (userInfo) =>
+      dispatch(actions.userLoginSuccess(userInfo)),
   };
 };
 

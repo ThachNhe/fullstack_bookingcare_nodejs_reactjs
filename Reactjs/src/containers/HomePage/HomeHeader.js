@@ -13,6 +13,7 @@ class HomeHeader extends Component {
   };
 
   render() {
+    console.log("check user info ", this.props.userInfo);
     let language = this.props.language;
     return (
       <>
@@ -98,11 +99,13 @@ class HomeHeader extends Component {
         </div>
         <div className="home-header-banner">
           <div className="content-up">
-            <div className="title1">
-              <FormattedMessage id="banner.title1" />
-            </div>
-            <div className="title1">
-              <FormattedMessage id="banner.title2" />
+            <div className="title">
+              <div className="title1">
+                <FormattedMessage id="banner.title1" />
+              </div>
+              <div className="title1">
+                <FormattedMessage id="banner.title2" />
+              </div>
             </div>
             <div className="search">
               <i className="fas fa-search"></i>
@@ -171,6 +174,7 @@ const mapStateToProps = (state) => {
   return {
     isLoggedIn: state.user.isLoggedIn,
     language: state.app.language,
+    userInfo: state.user.userInfo,
   };
 };
 

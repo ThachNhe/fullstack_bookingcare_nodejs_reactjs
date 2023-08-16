@@ -8,6 +8,7 @@ const initialState = {
 const appReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.USER_LOGIN_SUCCESS:
+      // console.log("ThachNhe check props user ", action);
       return {
         ...state,
         isLoggedIn: true,
