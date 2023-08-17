@@ -22,10 +22,15 @@ const DeleteUserService = (userId) => {
 const editUserService = (inputData) => {
   return axios.put(`/api/edit-user`, inputData);
 };
+
+const getAllCodeService = (input) => {
+  return axios.get(`/api/allcode?type=${input}`);
+};
 export {
   handleLoginAPI,
   getAllUsers,
   createNewUserService,
   DeleteUserService,
   editUserService,
+  getAllCodeService,
 };
