@@ -1,13 +1,7 @@
 import actionTypes from "../actions/actionTypes";
 
-// const initContentOfConfirmModal = {
-//   isOpen: false,
-//   messageId: "",
-//   handleFunc: null,
-//   dataFunc: null,
-// };
-
 const initialState = {
+  isLoadingGender: false,
   genders: [],
   roles: [],
   position: [],
@@ -16,20 +10,53 @@ const initialState = {
 const adminReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.FETCH_GENDER_START:
-      console.log("start : ", action);
+      state.isLoadingGender = true;
+      // console.log("start : ", action);
       return {
         ...state,
         started: true,
       };
     case actionTypes.FETCH_GENDER_SUCCESS:
-      let copyState = { ...state };
-      copyState.genders = action.data;
-      console.log("success : ", copyState);
+      state.genders = action.data;
+      state.isLoadingGender = false;
+      console.log("success : ", state);
       return {
-        ...copyState,
+        ...state,
         started: true,
       };
     case actionTypes.FETCH_GENDER_FAILED:
+      state.isLoadingGender = false;
+      state.genders = [];
+      return {
+        ...state,
+        started: true,
+      };
+    case actionTypes.FETCH_POSITION_SUCCESS:
+      state.position = action.data;
+      state.isLoadingGender = false;
+      // console.log("data position : ", state);
+      return {
+        ...state,
+        started: true,
+      };
+    case actionTypes.FETCH_POSITION_FAILED:
+      state.isLoadingGender = false;
+      state.position = [];
+      return {
+        ...state,
+        started: true,
+      };
+    case actionTypes.FETCH_ROLE_SUCCESS:
+      state.roles = action.data;
+      state.isLoadingGender = false;
+      // console.log("data position : ", state);
+      return {
+        ...state,
+        started: true,
+      };
+    case actionTypes.FETCH_ROLE_FAILED:
+      state.isLoadingGender = false;
+      state.roles = [];
       return {
         ...state,
         started: true,

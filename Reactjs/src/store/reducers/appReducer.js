@@ -32,7 +32,7 @@ const appReducer = (state = initialState, action) => {
         },
       };
     case actionTypes.CHANGE_LANGUAGE:
-      console.log("ThachNhe check props ", action);
+      // console.log("ThachNhe check props ", action);
       return {
         ...state,
         language: action.language,
