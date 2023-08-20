@@ -100,7 +100,7 @@ let checkEmailExist = (email) => {
 let createNewUser = (data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      console.log(data.email);
+      // console.log(data.email);
       let check = await checkEmailExist(data.email);
       console.log("check == ", check);
       if (check) {
@@ -116,9 +116,10 @@ let createNewUser = (data) => {
           firstName: data.firstName,
           lastName: data.lastName,
           address: data.address,
-          phoneNumber: data.phonenumber,
-          gender: data.gender === "1" ? true : false,
-          roleId: data.roleId,
+          phoneNumber: data.phoneNumber,
+          gender: data.gender,
+          roleId: data.role,
+          positionId: data.position,
         });
         resolve({
           errCode: 0,
