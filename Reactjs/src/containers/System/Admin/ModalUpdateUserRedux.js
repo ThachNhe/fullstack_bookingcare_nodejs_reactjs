@@ -28,6 +28,7 @@ class ModalUpdateUserRedux extends Component {
   componentDidMount() {}
   componentDidUpdate(preProps, preState, snapshot) {
     let user = this.props.currentUser;
+    console.log("check props user : ", user);
     let arrGender = this.props.genderRedux;
     let arrPosition = this.props.positionRedux;
     let arrRole = this.props.roleRedux;

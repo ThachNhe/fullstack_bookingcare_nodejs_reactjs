@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
-import { LANGUAGES } from "../../../utils";
+import { LANGUAGES, CommonUtils } from "../../../utils";
 import * as actions from "../../../store/actions";
 import "./userRedux.scss";
 import Lightbox from "react-image-lightbox";
@@ -58,15 +58,17 @@ class userRedux extends Component {
       });
     }
   }
-  handleOnchangeImage = (event) => {
+
+  handleOnchangeImage = async (event) => {
     let data = event.target.files;
     let file = data[0];
-
     if (file) {
+      let base64 = await CommonUtils.getBase64(file);
+      console.log("Check base64 : ", base64);
       let objectUrl = URL.createObjectURL(file);
       this.setState({
         previewImgUrl: objectUrl,
-        avatar: file,
+        avatar: base64,
       });
     }
   };
@@ -93,6 +95,7 @@ class userRedux extends Component {
       gender: this.state.gender,
       role: this.state.role,
       position: this.state.position,
+      avatar: this.state.avatar,
     });
   };
   handleOnchangeInput = (event, id) => {
