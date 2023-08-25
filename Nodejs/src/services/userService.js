@@ -100,9 +100,8 @@ let checkEmailExist = (email) => {
 let createNewUser = (data) => {
   return new Promise(async (resolve, reject) => {
     try {
-      // console.log(data.email);
       let check = await checkEmailExist(data.email);
-      console.log("check == ", check);
+      console.log("check AVATER FILE: ", data);
       if (check) {
         resolve({
           errCode: 1,
@@ -120,6 +119,7 @@ let createNewUser = (data) => {
           gender: data.gender,
           roleId: data.role,
           positionId: data.position,
+          image: data.avatar,
         });
         resolve({
           errCode: 0,
