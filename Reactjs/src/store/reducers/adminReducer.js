@@ -1,10 +1,12 @@
 import actionTypes from "../actions/actionTypes";
 
 const initialState = {
+  isOpenModal: true,
   isLoadingGender: false,
   genders: [],
   roles: [],
   position: [],
+  users: [],
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -55,8 +57,25 @@ const adminReducer = (state = initialState, action) => {
         started: true,
       };
     case actionTypes.FETCH_ROLE_FAILED:
-      state.isLoadingGender = false;
       state.roles = [];
+      return {
+        ...state,
+        started: true,
+      };
+    case actionTypes.FETCH_ALL_USERS__SUCCESS:
+      state.users = action.users;
+      return {
+        ...state,
+        started: true,
+      };
+    case actionTypes.FETCH_ALL_USERS__FAILED:
+      state.users = [];
+      return {
+        ...state,
+        started: true,
+      };
+    case actionTypes.EDIT_USER__SUCCESS:
+      state.isOpenModal = false;
       return {
         ...state,
         started: true,

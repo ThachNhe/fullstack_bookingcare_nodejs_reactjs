@@ -2,6 +2,9 @@ import actionTypes from "./actionTypes";
 import {
   getAllCodeService,
   createNewUserService,
+  getAllUsers,
+  DeleteUserService,
+  editUserService,
 } from "../../services/userService";
 export const fetchGenderStart = () => {
   return async (dispatch, getState) => {
@@ -78,9 +81,9 @@ export const createNewUser = (data) => {
   return async (dispatch, getState) => {
     try {
       let res = await createNewUserService(data);
-      console.log("check respone redux action  : ", res);
       if (res && res.errCode === 0) {
         dispatch(saveUserSuccess());
+        dispatch(fetchAllUserStart());
       } else {
         dispatch(saveUserFailed());
       }
@@ -95,4 +98,64 @@ export const saveUserFailed = () => ({
 });
 export const saveUserSuccess = () => ({
   type: actionTypes.CREATE_USER_SUCCESS,
+});
+
+export const fetchAllUserStart = () => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await getAllUsers("ALL");
+      if (res && res.errCode === 0) {
+        dispatch(fetchAllUserSuccess(res.users));
+      }
+    } catch (e) {
+      dispatch(fetchAllUserFailed());
+    }
+  };
+};
+
+export const fetchAllUserSuccess = (data) => ({
+  type: actionTypes.FETCH_ALL_USERS__SUCCESS,
+  users: data,
+});
+
+export const fetchAllUserFailed = () => ({
+  type: actionTypes.FETCH_ALL_USERS__FAILED,
+});
+
+export const deleteUserRedux = (id) => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await DeleteUserService(id);
+      if (res && res.errCode === 0) {
+        dispatch(fetchAllUserStart());
+      }
+    } catch (e) {
+      dispatch(DeleteUserFailed());
+    }
+  };
+};
+
+export const DeleteUserFailed = () => ({
+  type: actionTypes.DELETE_USER__FAILED,
+});
+
+export const EditUserRedux = (userEdit) => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await editUserService(userEdit);
+      if (res && res.errCode === 0) {
+        dispatch(fetchAllUserStart());
+        dispatch(EditUserSuccess());
+      }
+    } catch (e) {
+      dispatch(EditUserFailed());
+    }
+  };
+};
+export const EditUserSuccess = () => ({
+  type: actionTypes.EDIT_USER__SUCCESS,
+});
+
+export const EditUserFailed = () => ({
+  type: actionTypes.EDIT_USER__FAILED,
 });

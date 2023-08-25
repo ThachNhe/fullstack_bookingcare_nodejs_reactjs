@@ -6,7 +6,7 @@ import * as actions from "../../../store/actions";
 import "./userRedux.scss";
 import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css";
-import { every } from "lodash";
+import TableManageUser from "./TableManageUser";
 class userRedux extends Component {
   constructor(props) {
     super(props);
@@ -140,10 +140,7 @@ class userRedux extends Component {
       gender,
       position,
       role,
-      avatar,
     } = this.state;
-    // console.log("role : ", roles);
-    // console.log("position : ", positions);
     return (
       <>
         <div className="user-redux-container">
@@ -241,6 +238,7 @@ class userRedux extends Component {
                     <FormattedMessage id="manage-user.gender" />
                   </label>
                   <select
+                    value={gender}
                     className="form-control"
                     onChange={(event) =>
                       this.handleOnchangeInput(event, "gender")
@@ -268,6 +266,7 @@ class userRedux extends Component {
                     onChange={(event) =>
                       this.handleOnchangeInput(event, "position")
                     }
+                    value={position}
                   >
                     {positions &&
                       positions.length > 0 &&
@@ -291,6 +290,7 @@ class userRedux extends Component {
                     onChange={(event) =>
                       this.handleOnchangeInput(event, "role")
                     }
+                    value={role}
                   >
                     {roles &&
                       roles.length > 0 &&
@@ -331,7 +331,7 @@ class userRedux extends Component {
                     ></div>
                   </div>
                 </div>
-                <div className="col-12 mt-3">
+                <div className="col-12 my-3">
                   <button
                     className="btn btn-primary"
                     onClick={() => {
@@ -342,6 +342,7 @@ class userRedux extends Component {
                   </button>
                 </div>
               </div>
+              <TableManageUser />
             </div>
           </div>
           {this.state.isOpen && (
@@ -372,10 +373,6 @@ const mapDispatchToProps = (dispatch) => {
     getPositionStart: () => dispatch(actions.fetchPositionStart()),
     getRoleStart: () => dispatch(actions.fetchRoleStart()),
     createNewUser: (data) => dispatch(actions.createNewUser(data)),
-    // processLogout: () => dispatch(actions.processLogout()),
-    // changeLanguageAppRedux: (language) => {
-    //   dispatch(actions.changeLanguageApp(language));
-    // },
   };
 };
 

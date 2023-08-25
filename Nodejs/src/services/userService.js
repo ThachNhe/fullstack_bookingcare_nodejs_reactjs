@@ -165,9 +165,14 @@ let editUser = (data) => {
           message: "user not exist",
         });
       }
+      user.email = data.email;
       user.firstName = data.firstName;
       user.lastName = data.lastName;
       user.address = data.address;
+      user.phoneNumber = data.phoneNumber;
+      user.role = data.role;
+      user.position = data.position;
+      user.gender = data.gender;
       await user.save();
       resolve({
         errCode: 0,
