@@ -49,5 +49,9 @@
         "roleId": "Vai trò",
         "image": "Hình ảnh",
         "save": "Lưu"
+    },
+    "homepage": {
+        "outstanding-doctor": "Bác sĩ nổi bật tuần qua",
+        "more-info": "Xêm thêm"
     }
 }

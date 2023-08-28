@@ -49,5 +49,9 @@
         "roleId": "Role",
         "image": "Image",
         "save": "Save"
+    },
+     "homepage": {
+        "outstanding-doctor": "Out standing doctor",
+        "more-info": "More information"
     }
 }
