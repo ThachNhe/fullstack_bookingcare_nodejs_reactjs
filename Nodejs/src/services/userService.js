@@ -170,8 +170,8 @@ let editUser = (data) => {
       user.lastName = data.lastName;
       user.address = data.address;
       user.phoneNumber = data.phoneNumber;
-      user.role = data.role;
-      user.position = data.position;
+      user.roleId = data.roleId;
+      user.positionId = data.positionId;
       user.gender = data.gender;
       await user.save();
       resolve({

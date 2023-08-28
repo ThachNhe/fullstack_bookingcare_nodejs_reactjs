@@ -41,20 +41,20 @@ class userRedux extends Component {
     if (preProps.genderRedux !== this.props.genderRedux) {
       this.setState({
         genderArr: this.props.genderRedux,
-        gender: arrGender && arrGender.length > 0 ? arrGender[0].key : "",
+        gender: arrGender && arrGender.length > 0 ? arrGender[0].keyMap : "",
       });
     }
     if (preProps.positionRedux !== this.props.positionRedux) {
       this.setState({
         positionArr: this.props.positionRedux,
         position:
-          arrPosition && arrPosition.length > 0 ? arrPosition[0].key : "",
+          arrPosition && arrPosition.length > 0 ? arrPosition[0].keyMap : "",
       });
     }
     if (preProps.roleRedux !== this.props.roleRedux) {
       this.setState({
         roleIdArr: this.props.roleRedux,
-        role: arrRole && arrRole.length > 0 ? arrRole[0].key : "",
+        role: arrRole && arrRole.length > 0 ? arrRole[0].keyMap : "",
       });
     }
   }
@@ -64,7 +64,7 @@ class userRedux extends Component {
     let file = data[0];
     if (file) {
       let base64 = await CommonUtils.getBase64(file);
-      console.log("Check base64 : ", base64);
+      // console.log("Check base64 : ", base64);
       let objectUrl = URL.createObjectURL(file);
       this.setState({
         previewImgUrl: objectUrl,
@@ -72,6 +72,7 @@ class userRedux extends Component {
       });
     }
   };
+
   openPreviewImg = () => {
     if (!this.state.previewImgUrl) {
       return;
@@ -82,9 +83,11 @@ class userRedux extends Component {
   };
   handleSaveUser = () => {
     let isValid = this.checkValidateInput();
+    console.log(isValid);
     if (isValid === false) {
       return;
     }
+    console.log("data before create : ", this.state);
     this.props.createNewUser({
       email: this.state.email,
       password: this.state.password,
@@ -101,6 +104,7 @@ class userRedux extends Component {
   handleOnchangeInput = (event, id) => {
     let copyState = { ...this.state };
     copyState[id] = event.target.value;
+    console.log("check input : ", event.target.value);
     this.setState({
       ...copyState,
     });
@@ -133,6 +137,7 @@ class userRedux extends Component {
     let positions = this.state.positionArr;
     let language = this.props.language;
     let isLoadingGender = this.props.isLoadingGender;
+    console.log("check props roles : ", roles);
     let {
       email,
       password,
@@ -251,7 +256,7 @@ class userRedux extends Component {
                       genders.length > 0 &&
                       genders.map((item, index) => {
                         return (
-                          <option key={index} value={item.key}>
+                          <option key={index} value={item.keyMap}>
                             {language === LANGUAGES.VI
                               ? item.valueVi
                               : item.valueEn}
@@ -275,7 +280,7 @@ class userRedux extends Component {
                       positions.length > 0 &&
                       positions.map((item, index) => {
                         return (
-                          <option value={item.key}>
+                          <option value={item.keyMap}>
                             {language === LANGUAGES.VI
                               ? item.valueVi
                               : item.valueEn}
@@ -299,7 +304,7 @@ class userRedux extends Component {
                       roles.length > 0 &&
                       roles.map((item, index) => {
                         return (
-                          <option>
+                          <option value={item.keyMap}>
                             {language === LANGUAGES.VI
                               ? item.valueVi
                               : item.valueEn}

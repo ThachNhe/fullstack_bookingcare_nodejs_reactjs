@@ -7,6 +7,7 @@ const initialState = {
   roles: [],
   position: [],
   users: [],
+  topDoctors: [],
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -21,7 +22,7 @@ const adminReducer = (state = initialState, action) => {
     case actionTypes.FETCH_GENDER_SUCCESS:
       state.genders = action.data;
       state.isLoadingGender = false;
-      console.log("success : ", state);
+
       return {
         ...state,
         started: true,
@@ -76,6 +77,18 @@ const adminReducer = (state = initialState, action) => {
       };
     case actionTypes.EDIT_USER__SUCCESS:
       state.isOpenModal = false;
+      return {
+        ...state,
+        started: true,
+      };
+    case actionTypes.FETCH_TOP_DOCTOR__SUCCESS:
+      state.topDoctors = action.data;
+      return {
+        ...state,
+        started: true,
+      };
+    case actionTypes.FETCH_TOP_DOCTOR__FAILED:
+      state.topDoctors = [];
       return {
         ...state,
         started: true,

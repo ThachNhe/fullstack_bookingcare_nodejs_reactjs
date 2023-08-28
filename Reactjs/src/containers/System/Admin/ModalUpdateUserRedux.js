@@ -12,6 +12,7 @@ class ModalUpdateUserRedux extends Component {
       genderArr: [],
       positionArr: [],
       roleIdArr: [],
+      isHaveData: true,
       id: null,
       email: "",
       firstName: "",
@@ -19,8 +20,8 @@ class ModalUpdateUserRedux extends Component {
       phoneNumber: "",
       address: "",
       gender: "",
-      position: "",
-      role: "",
+      positionId: "",
+      roleId: "",
     };
     this.listenToEmitter();
   }
@@ -28,10 +29,7 @@ class ModalUpdateUserRedux extends Component {
   componentDidMount() {}
   componentDidUpdate(preProps, preState, snapshot) {
     let user = this.props.currentUser;
-    console.log("check props user : ", user);
-    let arrGender = this.props.genderRedux;
-    let arrPosition = this.props.positionRedux;
-    let arrRole = this.props.roleRedux;
+    console.log("curent user : ", user);
     if (preProps.currentUser !== this.props.currentUser) {
       this.setState({
         id: user.id,
@@ -40,25 +38,13 @@ class ModalUpdateUserRedux extends Component {
         lastName: user.lastName,
         phoneNumber: user.phoneNumber,
         address: user.address,
-      });
-    }
-    if (preProps.genderRedux !== this.props.genderRedux) {
-      this.setState({
+        gender: user.gender,
+        positionId: user.positionId,
+        roleId: user.roleId,
         genderArr: this.props.genderRedux,
-        gender: arrGender && arrGender.length > 0 ? arrGender[0].key : "",
-      });
-    }
-    if (preProps.positionRedux !== this.props.positionRedux) {
-      this.setState({
         positionArr: this.props.positionRedux,
-        position:
-          arrPosition && arrPosition.length > 0 ? arrPosition[0].key : "",
-      });
-    }
-    if (preProps.roleRedux !== this.props.roleRedux) {
-      this.setState({
         roleIdArr: this.props.roleRedux,
-        role: arrRole && arrRole.length > 0 ? arrRole[0].key : "",
+        // isHaveData: false,
       });
     }
   }
@@ -81,8 +67,8 @@ class ModalUpdateUserRedux extends Component {
       "lastName",
       "address",
       "gender",
-      "position",
-      "role",
+      "positionId",
+      "roleId",
     ];
     for (let i = 0; i < arrInput.length; i++) {
       if (!this.state[arrInput[i]]) {
@@ -105,6 +91,7 @@ class ModalUpdateUserRedux extends Component {
   };
   handleUpdateUserRedux = () => {
     let check = this.checkValidateInput();
+    console.log("Check input before update : ", this.state);
     if (check === true) {
       this.props.updateUserRedux({
         id: this.state.id,
@@ -113,17 +100,22 @@ class ModalUpdateUserRedux extends Component {
         lastName: this.state.lastName,
         address: this.state.address,
         gender: this.state.gender,
-        role: this.state.role,
-        position: this.state.position,
+        roleId: this.state.roleId,
+        positionId: this.state.positionId,
       });
     }
   };
   render() {
     let language = this.props.language;
-    let genders = this.props.genderRedux;
-    let positions = this.props.positionRedux;
-    let roles = this.props.roleRedux;
-    console.log("STATE ", this.state);
+    let {
+      gender,
+      isHaveData,
+      positionId,
+      roleId,
+      genderArr,
+      positionArr,
+      roleIdArr,
+    } = this.state;
     return (
       <>
         <Modal
@@ -189,27 +181,6 @@ class ModalUpdateUserRedux extends Component {
 
               <div className="col-4">
                 <label>
-                  <FormattedMessage id="manage-user.roleId" />
-                </label>
-                <select
-                  className="form-control"
-                  onChange={(event) => this.handleOnchangeInput(event, "role")}
-                >
-                  {roles &&
-                    roles.length > 0 &&
-                    roles.map((item, index) => {
-                      return (
-                        <option value={item.key} key={index}>
-                          {language === LANGUAGES.VI
-                            ? item.valueVi
-                            : item.valueEn}
-                        </option>
-                      );
-                    })}
-                </select>
-              </div>
-              <div className="col-4">
-                <label>
                   <FormattedMessage id="manage-user.gender" />
                 </label>
                 <select
@@ -217,12 +188,13 @@ class ModalUpdateUserRedux extends Component {
                   onChange={(event) =>
                     this.handleOnchangeInput(event, "gender")
                   }
+                  value={this.state.gender}
                 >
-                  {genders &&
-                    genders.length > 0 &&
-                    genders.map((item, index) => {
+                  {genderArr &&
+                    genderArr.length > 0 &&
+                    genderArr.map((item, index) => {
                       return (
-                        <option key={index} value={item.key}>
+                        <option key={index} value={item.keyMap}>
                           {language === LANGUAGES.VI
                             ? item.valueVi
                             : item.valueEn}
@@ -240,12 +212,37 @@ class ModalUpdateUserRedux extends Component {
                   onChange={(event) =>
                     this.handleOnchangeInput(event, "position")
                   }
+                  value={this.state.positionId}
                 >
-                  {positions &&
-                    positions.length > 0 &&
-                    positions.map((item, index) => {
+                  {positionArr &&
+                    positionArr.length > 0 &&
+                    positionArr.map((item, index) => {
                       return (
-                        <option value={item.key} key={index}>
+                        <option value={item.keyMap} key={index}>
+                          {language === LANGUAGES.VI
+                            ? item.valueVi
+                            : item.valueEn}
+                        </option>
+                      );
+                    })}
+                </select>
+              </div>
+              <div className="col-4">
+                <label>
+                  <FormattedMessage id="manage-user.roleId" />
+                </label>
+                <select
+                  className="form-control"
+                  onChange={(event) =>
+                    this.handleOnchangeInput(event, "roleId")
+                  }
+                  value={this.state.roleId}
+                >
+                  {roleIdArr &&
+                    roleIdArr.length > 0 &&
+                    roleIdArr.map((item, index) => {
+                      return (
+                        <option value={item.keyMap} key={index}>
                           {language === LANGUAGES.VI
                             ? item.valueVi
                             : item.valueEn}
