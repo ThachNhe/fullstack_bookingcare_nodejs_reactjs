@@ -137,7 +137,7 @@ class userRedux extends Component {
     let positions = this.state.positionArr;
     let language = this.props.language;
     let isLoadingGender = this.props.isLoadingGender;
-    console.log("check props roles : ", roles);
+    // console.log("check props roles : ", roles);
     let {
       email,
       password,

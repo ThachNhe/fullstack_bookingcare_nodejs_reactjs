@@ -29,7 +29,7 @@ class ModalUpdateUserRedux extends Component {
   componentDidMount() {}
   componentDidUpdate(preProps, preState, snapshot) {
     let user = this.props.currentUser;
-    console.log("curent user : ", user);
+    // console.log("curent user : ", user);
     if (preProps.currentUser !== this.props.currentUser) {
       this.setState({
         id: user.id,
@@ -85,6 +85,7 @@ class ModalUpdateUserRedux extends Component {
     this.setState({
       ...copyState,
     });
+    //console.log("check user update : ", event.target.value);
   };
   toggle = () => {
     this.props.toggleFromParent();
@@ -210,7 +211,7 @@ class ModalUpdateUserRedux extends Component {
                 <select
                   className="form-control"
                   onChange={(event) =>
-                    this.handleOnchangeInput(event, "position")
+                    this.handleOnchangeInput(event, "positionId")
                   }
                   value={this.state.positionId}
                 >
