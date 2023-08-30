@@ -6,6 +6,8 @@ import {
   DeleteUserService,
   editUserService,
   getTopDoctorHomeService,
+  getAllDoctor,
+  saveDetailDoctor,
 } from "../../services/userService";
 export const fetchGenderStart = () => {
   return async (dispatch, getState) => {
@@ -183,4 +185,47 @@ export const fetchTopDoctorSuccess = (data) => ({
 
 export const fetchTopDoctorFailed = () => ({
   type: actionTypes.FETCH_TOP_DOCTOR__FAILED,
+});
+
+export const fetchAllDoctor = () => {
+  return async (dispatch, getState) => {
+    try {
+      let resTopDoctor = await getAllDoctor();
+      // console.log("OK : ", resTopDoctor);
+      if (resTopDoctor && resTopDoctor.errCode === 0) {
+        dispatch(fetchAllDoctorSuccess(resTopDoctor.data));
+      }
+    } catch (e) {
+      dispatch(fetchALlDoctorFailed());
+    }
+  };
+};
+
+export const fetchAllDoctorSuccess = (data) => ({
+  type: actionTypes.FETCH_ALL_DOCTOR__SUCCESS,
+  data: data,
+});
+
+export const fetchALlDoctorFailed = () => ({
+  type: actionTypes.FETCH_ALL_DOCTOR__FAILED,
+});
+
+export const saveDetailDoctorAction = (data) => {
+  return async (dispatch, getState) => {
+    try {
+      let resTopDoctor = await saveDetailDoctor(data);
+      if (resTopDoctor && resTopDoctor.errCode === 0) {
+        dispatch(saveDoctorSuccess(resTopDoctor.data));
+      }
+    } catch (e) {
+      dispatch(saveDoctorFailed());
+    }
+  };
+};
+export const saveDoctorSuccess = () => ({
+  type: actionTypes.SAVE_DETAIL_DOCTOR__SUCCESS,
+});
+
+export const saveDoctorFailed = () => ({
+  type: actionTypes.SAVE_DETAIL_DOCTOR__FAILED,
 });

@@ -5,12 +5,8 @@ import MdEditor from "react-markdown-editor-lite";
 import "react-markdown-editor-lite/lib/index.css";
 import "./ManageDoctor.scss";
 import Select from "react-select";
-
-const options = [
-  { value: "chocolate", label: "Chocolate" },
-  { value: "strawberry", label: "Strawberry" },
-  { value: "vanilla", label: "Vanilla" },
-];
+import * as actions from "../../../store/actions";
+import { LANGUAGES } from "../../../utils";
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 class ManageDoctor extends Component {
   constructor(props) {
@@ -18,25 +14,55 @@ class ManageDoctor extends Component {
     this.state = {
       contentMarkdown: "",
       contentHTML: "",
-      selectedDoctor: null,
+      selectedOption: null,
       description: "",
+      listDoctor: [],
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.props.fetchAllDoctor();
+  }
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.allDoctors !== this.props.allDoctors) {
+      let dataSelect = this.buildDataInPutSelect(this.props.allDoctors);
+      this.setState({
+        listDoctor: dataSelect,
+      });
+    }
+    if (prevProps.language !== this.props.language) {
+      let dataSelect = this.buildDataInPutSelect(this.props.allDoctors);
+      this.setState({
+        listDoctor: dataSelect,
+      });
+    }
+    console.log("selector :", this.state.selectedOption);
+  }
+  buildDataInPutSelect = (data) => {
+    let result = [];
+    let { language } = this.props;
+    if (data && data.length > 0) {
+      data.map((item, index) => {
+        let object = {};
+        let labelVi = `${item.lastName} ${item.firstName}`;
+        let labelEn = `${item.firstName} ${item.lastName}`;
+        object.label = language === LANGUAGES.VI ? labelVi : labelEn;
+        object.value = item.id;
+        result.push(object);
+      });
+    }
+
+    return result;
+  };
   handleEditorChange = ({ html, text }) => {
     this.setState({
       contentHTML: html,
       contentMarkdown: text,
     });
   };
-  //   handleChange = ({ label, value }) => {
-  //     this.setState({
-  //       selectedDoctor: value,
-  //     });
-  //   };
-  handleChange = (selectedDoctor) => {
-    this.setState({ selectedDoctor });
+
+  handleChange = (selectedOption) => {
+    this.setState({ selectedOption });
   };
   handleOnchangeDescription = (event) => {
     this.setState({
@@ -44,10 +70,16 @@ class ManageDoctor extends Component {
     });
   };
   handleSaveContentMarkdown = () => {
-    console.log("check state : ", this.state);
+    this.props.saveDetailDoctorAction({
+      contentHTML: this.state.contentHTML,
+      contentMarkdown: this.state.contentMarkdown,
+      description: this.state.description,
+      doctorId: this.state.selectedOption.value,
+    });
   };
   render() {
-    let { selectedDoctor, description } = this.state;
+    let { selectedOption, description } = this.state;
+    console.log("state : ", this.state);
     return (
       <div className="manage-doctor-container">
         <div className="manage-doctor-title"> create information</div>
@@ -55,9 +87,9 @@ class ManageDoctor extends Component {
           <div className="content-left">
             <label>choice doctor</label>
             <Select
-              value={selectedDoctor}
+              value={selectedOption}
               onChange={this.handleChange}
-              options={options}
+              options={this.state.listDoctor}
             />
           </div>
           <div className="content-right">
@@ -91,11 +123,18 @@ class ManageDoctor extends Component {
 }
 
 const mapStateToProps = (state) => {
-  return {};
+  return {
+    language: state.app.language,
+    allDoctors: state.admin.allDoctors,
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    fetchAllDoctor: () => dispatch(actions.fetchAllDoctor()),
+    saveDetailDoctorAction: (data) =>
+      dispatch(actions.saveDetailDoctorAction(data)),
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManageDoctor);
