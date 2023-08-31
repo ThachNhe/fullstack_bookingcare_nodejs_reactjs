@@ -36,7 +36,6 @@ class ManageDoctor extends Component {
         listDoctor: dataSelect,
       });
     }
-    console.log("selector :", this.state.selectedOption);
   }
   buildDataInPutSelect = (data) => {
     let result = [];
@@ -70,6 +69,12 @@ class ManageDoctor extends Component {
     });
   };
   handleSaveContentMarkdown = () => {
+    console.log("data before crearte : ", {
+      contentHTML: this.state.contentHTML,
+      contentMarkdown: this.state.contentMarkdown,
+      description: this.state.description,
+      doctorId: this.state.selectedOption.value,
+    });
     this.props.saveDetailDoctorAction({
       contentHTML: this.state.contentHTML,
       contentMarkdown: this.state.contentMarkdown,
@@ -79,7 +84,7 @@ class ManageDoctor extends Component {
   };
   render() {
     let { selectedOption, description } = this.state;
-    console.log("state : ", this.state);
+    //console.log("state : ", this.state);
     return (
       <div className="manage-doctor-container">
         <div className="manage-doctor-title"> create information</div>

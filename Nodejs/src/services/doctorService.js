@@ -63,7 +63,7 @@ let saveInfoDoctorService = (body) => {
       } else {
         await db.Markdown.create({
           contentHTML: body.contentHTML,
-          contentMarkdown: body.contentHTML,
+          contentMarkdown: body.contentMarkdown,
           description: body.description,
           doctorId: body.doctorId,
         });
@@ -78,8 +78,48 @@ let saveInfoDoctorService = (body) => {
     }
   });
 };
+let getDetailDoctorByIdService = (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      // console.log("ID : ", id);
+      if (!id) {
+        resolve({
+          errCode: 1,
+          errMessage: "missing require parameter",
+        });
+      } else {
+        let data = await db.User.findOne({
+          where: { id: id },
+          attributes: {
+            exclude: ["password", "image"],
+          },
+          include: [
+            {
+              model: db.Markdown,
+              attributes: ["description", "contentHTML", "contentMarkdown"],
+            },
+            {
+              model: db.Allcode,
+              as: "positionData",
+              attributes: ["valueEn", "valueVi"],
+            },
+          ],
+          raw: true,
+          nest: true,
+        });
+        resolve({
+          errCode: 0,
+          data: data,
+        });
+      }
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 module.exports = {
   getTopDoctorHomeService: getTopDoctorHomeService,
   getAllDoctorService: getAllDoctorService,
   saveInfoDoctorService: saveInfoDoctorService,
+  getDetailDoctorByIdService: getDetailDoctorByIdService,
 };
