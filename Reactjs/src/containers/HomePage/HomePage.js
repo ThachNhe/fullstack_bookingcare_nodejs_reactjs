@@ -25,7 +25,7 @@ class Homepage extends Component {
     };
     return (
       <div className="text-center">
-        <HomeHeader></HomeHeader>
+        <HomeHeader BannerIsShowed={true} />
         <Specialty settings={settings} />
         <MedicalFacility settings={settings} />
         <GoodDoctor settings={settings} />
