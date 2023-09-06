@@ -55,18 +55,37 @@ let getAllDoctorService = async () => {
 let saveInfoDoctorService = (body) => {
   return new Promise(async (resolve, reject) => {
     try {
-      if (!body.doctorId || !body.contentHTML || !body.contentMarkdown) {
+      if (
+        !body.doctorId ||
+        !body.contentHTML ||
+        !body.contentMarkdown ||
+        !body.action
+      ) {
         resolve({
           errCode: 1,
           errMessage: "missing parameter",
         });
       } else {
-        await db.Markdown.create({
-          contentHTML: body.contentHTML,
-          contentMarkdown: body.contentMarkdown,
-          description: body.description,
-          doctorId: body.doctorId,
-        });
+        if (body.action === "CREATE") {
+          await db.Markdown.create({
+            contentHTML: body.contentHTML,
+            contentMarkdown: body.contentMarkdown,
+            description: body.description,
+            doctorId: body.doctorId,
+          });
+        } else if (body.action === "EDIT") {
+          let doctorMarkdown = await db.Markdown.findOne({
+            where: { doctorId: body.doctorId },
+            raw: false,
+          });
+          if (doctorMarkdown) {
+            doctorMarkdown.contentHTML = body.contentHTML;
+            doctorMarkdown.contentMarkdown = body.contentMarkdown;
+            doctorMarkdown.description = body.description;
+            doctorMarkdown.doctorId = body.doctorId;
+            await doctorMarkdown.save();
+          }
+        }
         resolve({
           errCode: 0,
           errMessage: "save info doctor success",
