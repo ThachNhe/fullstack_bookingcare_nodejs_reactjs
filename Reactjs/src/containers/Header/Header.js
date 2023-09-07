@@ -33,7 +33,7 @@ class Header extends Component {
         menuApp: menu,
       });
     }
-    console.log("thach nhe : ", this.props.userInfo);
+    //console.log("thach nhe : ", this.props.userInfo);
   }
   render() {
     const { processLogout, language, userInfo } = this.props;

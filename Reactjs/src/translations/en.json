@@ -56,5 +56,8 @@
      "homepage": {
         "outstanding-doctor": "Out standing doctor",
         "more-info": "More information"
+    },
+    "manage-schedule":{
+        "title": "Manage your doctor's directory"
     }
 }
