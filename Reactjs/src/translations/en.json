@@ -58,6 +58,9 @@
         "more-info": "More information"
     },
     "manage-schedule":{
-        "title": "Manage your doctor's directory"
+        "title": "Manage your doctor's directory",
+        "choose-date": "Choose date",
+        "choose-doctor": "Choose doctor",
+        "save-info": "Save information"
     }
 }

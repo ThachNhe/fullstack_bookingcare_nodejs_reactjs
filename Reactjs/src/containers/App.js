@@ -20,6 +20,7 @@ import System from "../routes/System";
 import { CustomToastCloseButton } from "../components/CustomToast";
 import DetailDoctor from "./Patient/Doctor/DetailDoctor";
 import Doctor from "../routes/Doctor";
+import { toast } from "react-toastify";
 class App extends Component {
   handlePersistorState = () => {
     const { persistor } = this.props;
