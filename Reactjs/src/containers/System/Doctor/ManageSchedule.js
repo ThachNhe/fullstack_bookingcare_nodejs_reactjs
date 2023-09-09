@@ -9,6 +9,7 @@ import DatePicker from "../../../components/Input/DatePicker";
 import moment from "moment";
 import { toast } from "react-toastify";
 import _ from "lodash";
+import { createBulkSchedule } from "../../../services/userService";
 class ManageSchedule extends Component {
   constructor(props) {
     super(props);
@@ -89,7 +90,7 @@ class ManageSchedule extends Component {
     }
     //console.log(`item selected ${time.id}`, this.state.allScheduleTime);
   };
-  handleSaveSchedule = () => {
+  handleSaveSchedule = async () => {
     let { allScheduleTime, selectedDoctor, currentDate } = this.state;
     let result = [];
     if (!currentDate) {
@@ -100,7 +101,7 @@ class ManageSchedule extends Component {
       toast.error("invalid selectedDoctor");
       return;
     }
-    let formattedDate = moment(currentDate).format(dateFormat.SEND_TO_SERVER);
+    let formattedDate = new Date(currentDate).getTime();
     if (allScheduleTime && allScheduleTime.length > 0) {
       let selectedTime = allScheduleTime.filter(
         (item) => item.isSelected === true
@@ -111,7 +112,7 @@ class ManageSchedule extends Component {
           let obj = {};
           obj.doctorId = selectedDoctor.value;
           obj.date = formattedDate;
-          obj.time = item.keyMap;
+          obj.timeType = item.keyMap;
           result.push(obj);
         });
       } else {
@@ -120,6 +121,12 @@ class ManageSchedule extends Component {
       }
     }
     // console.log("check result ", result);
+    let res = await createBulkSchedule({
+      arrSchedule: result,
+      doctorId: selectedDoctor.value,
+      date: formattedDate,
+    });
+    console.log("check res from server", res);
   };
   render() {
     let { allScheduleTime } = this.state;
