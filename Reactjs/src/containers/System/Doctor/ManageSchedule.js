@@ -45,7 +45,7 @@ class ManageSchedule extends Component {
           return item;
         });
       }
-      // console.log("check data : ", data);
+
       this.setState({
         allScheduleTime: data,
       });
@@ -121,12 +121,13 @@ class ManageSchedule extends Component {
       }
     }
     // console.log("check result ", result);
+    console.log("type of date : ", typeof formattedDate);
     let res = await createBulkSchedule({
       arrSchedule: result,
       doctorId: selectedDoctor.value,
       date: formattedDate,
     });
-    console.log("check res from server", res);
+    //console.log("check res from server", res);
   };
   render() {
     let { allScheduleTime } = this.state;

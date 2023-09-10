@@ -4,6 +4,7 @@ import HomeHeader from "../../HomePage/HomeHeader";
 import "./DoctorDetail.scss";
 import { getDetailInfoDoctor } from "../../../services/userService";
 import { LANGUAGES } from "../../../utils";
+import DoctorSchedule from "../../System/Doctor/DoctorSchedule";
 class DetailDoctor extends Component {
   constructor(props) {
     super(props);
@@ -29,7 +30,7 @@ class DetailDoctor extends Component {
   }
   componentDidUpdate(preProps, preState, snapshot) {}
   render() {
-    console.log("data : ", this.state);
+    // console.log("data : ", this.state);
     let { language } = this.props;
     let { detailDoctor } = this.state;
     let nameVi = "",
@@ -61,7 +62,12 @@ class DetailDoctor extends Component {
               </div>
             </div>
           </div>
-          <div className="schedule-doctor"></div>
+          <div className="schedule-doctor">
+            <div className="content-left">
+              <DoctorSchedule doctorIdFromParent={detailDoctor.id} />
+            </div>
+            <div className="content-right"></div>
+          </div>
           <div className="detail-info-doctor">
             {detailDoctor &&
               detailDoctor.Markdown &&
