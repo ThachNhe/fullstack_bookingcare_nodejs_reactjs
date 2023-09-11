@@ -152,34 +152,22 @@ let bulkCreateScheduleService = (body) => {
         });
       } else {
         let schedule = body.arrSchedule;
-        // console.log("check body ", schedule);
-        if (body && body.length > 0) {
+        if (body) {
           schedule = schedule.map((item) => {
             item.maxNumber = MAX_NUMBER_SCHEDULE;
             return item;
           });
         }
-        // schedule.map((obj) => ({ ...obj, maxNumber: 10 }));
-        // console.log("schedule : ", schedule);
-
+        // console.log("check schedule ", schedule);
         let existing = await db.Schedule.findAll({
           where: { doctorId: body.doctorId, date: body.date },
           attributes: ["timeType", "date", "doctorId", "maxNumber"],
           raw: true,
         });
-        // console.log("schedule : ", existing);
-        if (existing && existing.length > 0) {
-          existing = existing.map((item) => {
-            item.date = new Date(item.date).getTime();
-            return item;
-          });
-        }
+        // console.log(" chẹck existing : ", existing);
         let toCreate = _.differenceWith(schedule, existing, (a, b) => {
           return a.timeType === b.timeType && a.date === b.date;
         });
-        // let toCreate = schedule.filter((x) => !existing.includes(x));
-        // console.log("check schedule: ", schedule);
-        // console.log("check tocreate : ", toCreate);
         if (toCreate && toCreate.length > 0) {
           await db.Schedule.bulkCreate(toCreate);
         }
@@ -209,6 +197,15 @@ let getScheduleByDateService = (doctorId, date) => {
       } else {
         let data = await db.Schedule.findAll({
           where: { doctorId: doctorId, date: date },
+          include: [
+            {
+              model: db.Allcode,
+              as: "timeTypeData",
+              attributes: ["valueEn", "valueVi"],
+            },
+          ],
+          raw: true,
+          nest: true,
         });
         if (!data) {
           data = [];

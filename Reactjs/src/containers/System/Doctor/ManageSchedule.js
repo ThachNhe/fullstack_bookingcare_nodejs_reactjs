@@ -102,6 +102,7 @@ class ManageSchedule extends Component {
       return;
     }
     let formattedDate = new Date(currentDate).getTime();
+
     if (allScheduleTime && allScheduleTime.length > 0) {
       let selectedTime = allScheduleTime.filter(
         (item) => item.isSelected === true
@@ -111,7 +112,7 @@ class ManageSchedule extends Component {
         selectedTime.map((item) => {
           let obj = {};
           obj.doctorId = selectedDoctor.value;
-          obj.date = formattedDate;
+          obj.date = "" + formattedDate;
           obj.timeType = item.keyMap;
           result.push(obj);
         });
