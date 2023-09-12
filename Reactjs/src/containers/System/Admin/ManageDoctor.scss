@@ -1,47 +1,46 @@
-.manage-doctor-container{
-     padding: 10px;
-     .manage-doctor-title{
-          text-align: center;
-          margin: 15px 0;
-          font-size: 20px;
-          text-transform: uppercase;
-          font-weight: 600;
-     }
-    .more-info{
-     display: flex;
-     gap: 15px;
-     padding-bottom: 15px;
-     .content-left{
-          width: 40%;
-     }
-     .content-right{
-          width: 60%;
-     }
+.manage-doctor-container {
+    padding: 10px;
+    .manage-doctor-title {
+        text-align: center;
+        margin: 15px 0;
+        font-size: 20px;
+        text-transform: uppercase;
+        font-weight: 600;
     }
-     .save-content-doctor{
-          margin-top: 10px;
-          margin-bottom: 20px;
-          border-radius: 5px;
-          border: none;
-          outline: none;
-          background: orange;
-          cursor: pointer;
-          &:hover{
-               opacity: 0.8;
-          }
-     }
-      .create-content-doctor{
-          margin-top: 10px;
-          margin-bottom: 20px;
-          border-radius: 5px;
-          border: none;
-          outline: none;
-          background: rgb(55, 62, 139);
-          color: white;
-          cursor: pointer;
-          &:hover{
-               opacity: 0.8;
-          }
-     }
-
+    .more-info {
+        display: flex;
+        gap: 15px;
+        padding-bottom: 15px;
+        .content-left {
+            width: 40%;
+        }
+        .content-right {
+            width: 60%;
+        }
+    }
+    .save-content-doctor {
+        margin-top: 10px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        border: none;
+        outline: none;
+        background: orange;
+        cursor: pointer;
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+    .create-content-doctor {
+        margin-top: 10px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        border: none;
+        outline: none;
+        background: rgb(55, 62, 139);
+        color: white;
+        cursor: pointer;
+        &:hover {
+            opacity: 0.8;
+        }
+    }
 }
