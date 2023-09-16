@@ -1,4 +1,5 @@
 import actionTypes from './actionTypes';
+import { toast } from 'react-toastify';
 import {
     getAllCodeService,
     createNewUserService,
@@ -215,7 +216,10 @@ export const saveDetailDoctorAction = (data) => {
         try {
             let resTopDoctor = await saveDetailDoctor(data);
             if (resTopDoctor && resTopDoctor.errCode === 0) {
+                toast.success('Save doctor info success');
                 dispatch(saveDoctorSuccess(resTopDoctor.data));
+            } else {
+                toast.error('Save doctor info failed');
             }
         } catch (e) {
             dispatch(saveDoctorFailed());
