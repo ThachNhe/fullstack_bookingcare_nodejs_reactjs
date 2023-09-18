@@ -59,6 +59,7 @@ let getAllDoctorService = async () => {
 let saveInfoDoctorService = (body) => {
      return new Promise(async (resolve, reject) => {
           try {
+               console.log('check body : ', body);
                if (
                     !body.doctorId ||
                     !body.contentHTML ||
@@ -99,9 +100,13 @@ let saveInfoDoctorService = (body) => {
                     }
 
                     // upsert doctor_info table
-                    let doctorInfo = await db.Doctor_Infor.findOne();
+                    let doctorInfo = await db.Doctor_Infor.findOne({
+                         where: { doctorId: body.doctorId },
+                         raw: false,
+                    });
                     if (doctorInfo) {
                          //update
+
                          doctorInfo.priceId = body.selectedPrice;
                          doctorInfo.provinceId = body.selectedProvince;
                          doctorInfo.paymentId = body.selectedPayment;
@@ -112,6 +117,7 @@ let saveInfoDoctorService = (body) => {
                     } else {
                          //create
                          db.Doctor_Infor.create({
+                              doctorId: body.doctorId,
                               priceId: body.selectedPrice,
                               provinceId: body.selectedProvince,
                               paymentId: body.selectedPayment,
@@ -155,6 +161,27 @@ let getDetailDoctorByIdService = (id) => {
                                    model: db.Allcode,
                                    as: 'positionData',
                                    attributes: ['valueEn', 'valueVi'],
+                              },
+                              {
+                                   model: db.Doctor_Infor,
+                                   attributes: { exclude: ['id', 'doctorId'] },
+                                   include: [
+                                        {
+                                             model: db.Allcode,
+                                             as: 'priceTypeData',
+                                             attributes: ['valueVi', 'valueEn'],
+                                        },
+                                        {
+                                             model: db.Allcode,
+                                             as: 'provinceTypeData',
+                                             attributes: ['valueVi', 'valueEn'],
+                                        },
+                                        {
+                                             model: db.Allcode,
+                                             as: 'paymentTypeData',
+                                             attributes: ['valueVi', 'valueEn'],
+                                        },
+                                   ],
                               },
                          ],
                          raw: true,

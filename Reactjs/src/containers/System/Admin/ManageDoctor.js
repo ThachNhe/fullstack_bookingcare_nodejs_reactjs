@@ -10,6 +10,7 @@ import { LANGUAGES } from '../../../utils';
 import { getDetailInfoDoctor } from '../../../services/userService';
 import { manageActions } from '../../../utils/constant';
 import { FormattedMessage } from 'react-intl';
+import { values } from 'lodash';
 const mdParser = new MarkdownIt(/* Markdown-it options */);
 class ManageDoctor extends Component {
     constructor(props) {
@@ -119,14 +120,49 @@ class ManageDoctor extends Component {
 
     handleChangeSelect = async (selectedDoctor) => {
         this.setState({ selectedDoctor: selectedDoctor });
+        let { listPayment, listPrice, listProvince } = this.state;
         let res = await getDetailInfoDoctor(selectedDoctor.value);
         if (res && res.errCode === 0 && res.data && res.data.Markdown && res.data.Markdown.contentHTML) {
             let markdown = res.data.Markdown;
+            let addressClinic = '',
+                nameClinic = '',
+                note = '',
+                paymentId = '',
+                priceId = '',
+                provinceId = '',
+                selectedPayment = '',
+                selectedPrice = '',
+                selectedProvince = '';
+
+            if (res.data.Doctor_Infor) {
+                nameClinic = res.data.Doctor_Infor.nameClinic;
+                addressClinic = res.data.Doctor_Infor.addressClinic;
+                note = res.data.Doctor_Infor.note;
+                paymentId = res.data.Doctor_Infor.paymentId;
+                priceId = res.data.Doctor_Infor.priceId;
+                provinceId = res.data.Doctor_Infor.provinceId;
+                selectedPayment = listPayment.find((item) => {
+                    if (item.value === paymentId) return item;
+                });
+                selectedPrice = listPrice.find((item) => {
+                    if (item.value === priceId) return item;
+                });
+                selectedProvince = listProvince.find((item) => {
+                    if (item.value === provinceId) return item;
+                });
+            }
+
             this.setState({
                 contentHTML: markdown.contentHTML,
                 contentMarkdown: markdown.contentMarkdown,
                 description: markdown.description,
                 hasOldData: true,
+                addressClinic: addressClinic,
+                nameClinic: nameClinic,
+                note: note,
+                selectedPayment: selectedPayment,
+                selectedPrice: selectedPrice,
+                selectedProvince: selectedProvince,
             });
         } else {
             this.setState({
@@ -134,6 +170,9 @@ class ManageDoctor extends Component {
                 contentMarkdown: '',
                 description: '',
                 hasOldData: false,
+                addressClinic: '',
+                nameClinic: '',
+                note: '',
             });
         }
         // console.log('res doctor : ', res);
@@ -188,7 +227,7 @@ class ManageDoctor extends Component {
         console.log('check state ', selectionOption);
     };
     render() {
-        let { selectedDoctor, description, hasOldData } = this.state;
+        let { selectedDoctor, description, hasOldData, addressClinic, nameClinic, note } = this.state;
         // console.log('check state :', this.state);
         return (
             <div className="manage-doctor-container">
@@ -259,6 +298,7 @@ class ManageDoctor extends Component {
                         <input
                             className="form-control"
                             onChange={(event) => this.handleOnchangeText(event, 'nameClinic')}
+                            value={nameClinic}
                         />
                     </div>
                     <div className="col-4 form-group">
@@ -266,11 +306,16 @@ class ManageDoctor extends Component {
                         <input
                             className="form-control"
                             onChange={(event) => this.handleOnchangeText(event, 'addressClinic')}
+                            value={addressClinic}
                         />
                     </div>
                     <div className="col-4 form-group">
                         <label>Note</label>
-                        <input className="form-control" onChange={(event) => this.handleOnchangeText(event, 'note')} />
+                        <input
+                            className="form-control"
+                            onChange={(event) => this.handleOnchangeText(event, 'note')}
+                            value={note}
+                        />
                     </div>
                 </div>
                 <div className="manage-doctor-editor">
