@@ -1,39 +1,39 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 // Import css files
 
 class HomeFooter extends Component {
-  state = {};
+     state = {};
 
-  componentDidMount() {}
+     componentDidMount() {}
 
-  render() {
-    return (
-      <>
-        <div className="section-home-footer">
-          <p>
-            &copy; 2023 Thach nhe. More information.{" "}
-            <a
-              className="more-info"
-              href="https://www.facebook.com/stories/1230080321041475/?source=profile_highlight"
-              target="blank"
-            >
-              &#8594; Click here &#8592;
-            </a>
-          </p>
-        </div>
-      </>
-    );
-  }
+     render() {
+          return (
+               <>
+                    <div className="section-home-footer">
+                         <p>
+                              &copy; 2023 Thach nhe. More information.{' '}
+                              <a
+                                   className="more-info"
+                                   href="https://www.facebook.com/stories/1230080321041475/?source=profile_highlight"
+                                   target="blank"
+                              >
+                                   &#8594; Click here &#8592;
+                              </a>
+                         </p>
+                    </div>
+               </>
+          );
+     }
 }
 
 const mapStateToProps = (state) => {
-  return {};
+     return {};
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+     return {};
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeFooter);

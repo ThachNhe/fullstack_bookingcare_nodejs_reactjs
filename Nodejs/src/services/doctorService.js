@@ -1,5 +1,5 @@
 import db from '../models/index';
-import _ from 'lodash';
+import _, { reject } from 'lodash';
 // require("dotenv").config();
 
 const MAX_NUMBER_SCHEDULE = 10;
@@ -278,6 +278,52 @@ let getScheduleByDateService = (doctorId, date) => {
           }
      });
 };
+let getExtraDoctorInfoByIdService = (doctorId) => {
+     return new Promise(async (resolve, reject) => {
+          try {
+               if (!doctorId) {
+                    resolve({
+                         errCode: 1,
+                         errMessage: 'Missing require parameter',
+                    });
+               } else {
+                    let data = await db.Doctor_Infor.findOne({
+                         where: { doctorId: doctorId },
+                         include: [
+                              {
+                                   model: db.Allcode,
+                                   as: 'priceTypeData',
+                                   attributes: ['valueVi', 'valueEn'],
+                              },
+                              {
+                                   model: db.Allcode,
+                                   as: 'provinceTypeData',
+                                   attributes: ['valueVi', 'valueEn'],
+                              },
+                              {
+                                   model: db.Allcode,
+                                   as: 'paymentTypeData',
+                                   attributes: ['valueVi', 'valueEn'],
+                              },
+                         ],
+                         raw: false,
+                         nest: true,
+                    });
+                    // console.log('check data : ', data);
+                    if (!data) {
+                         data = [];
+                    } else {
+                         resolve({
+                              errCode: 0,
+                              data: data,
+                         });
+                    }
+               }
+          } catch (e) {
+               reject(e);
+          }
+     });
+};
 module.exports = {
      getTopDoctorHomeService: getTopDoctorHomeService,
      getAllDoctorService: getAllDoctorService,
@@ -285,4 +331,5 @@ module.exports = {
      getDetailDoctorByIdService: getDetailDoctorByIdService,
      bulkCreateScheduleService: bulkCreateScheduleService,
      getScheduleByDateService: getScheduleByDateService,
+     getExtraDoctorInfoByIdService,
 };
