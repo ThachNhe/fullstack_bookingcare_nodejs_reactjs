@@ -148,7 +148,7 @@ class DoctorExtraInfo extends Component {
                                              </div>
                                         </div>
                                         <div className="payment">
-                                             Người bệnh có thể thanh toán chi phí bằng hình thức :
+                                             <span>Người bệnh có thể thanh toán chi phí bằng hình thức :</span>
                                              {extraInfo && extraInfo.paymentTypeData
                                                   ? extraInfo.paymentTypeData.valueVi
                                                   : ''}

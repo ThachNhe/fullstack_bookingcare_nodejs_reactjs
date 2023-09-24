@@ -6,12 +6,15 @@ import localization from 'moment/locale/vi';
 import { LANGUAGES } from '../../../utils';
 import { getScheduleDoctorByDate } from '../../../services/userService';
 import { FormattedMessage } from 'react-intl';
+import BookingModal from './Modal/BookingModal';
 class DoctorSchedule extends Component {
      constructor(props) {
           super(props);
           this.state = {
                allDays: [],
                allAvailableTimes: [],
+               isOpenModal: false,
+               dataScheduleTimeModal: {},
           };
      }
      async componentDidMount() {
@@ -83,11 +86,27 @@ class DoctorSchedule extends Component {
                }
           }
      };
+     handleClickOpenModal = (time) => {
+          this.setState({
+               isOpenModal: !this.state.isOpenModal,
+               dataScheduleTimeModal: time,
+          });
+     };
+     closeBookingModal = () => {
+          this.setState({
+               isOpenModal: false,
+          });
+     };
      render() {
-          let { allDays, allAvailableTimes } = this.state;
+          let { allDays, allAvailableTimes, dataScheduleTimeModal } = this.state;
           let { language } = this.props;
           return (
                <>
+                    <BookingModal
+                         isOpen={this.state.isOpenModal}
+                         closeBookingModal={this.closeBookingModal}
+                         dataScheduleTimeModal={dataScheduleTimeModal}
+                    />
                     <div className="doctor-schedule-container">
                          <div className="all-schedule">
                               <select onChange={(event) => this.handleOnchangeSelect(event)}>
@@ -122,6 +141,7 @@ class DoctorSchedule extends Component {
                                                                  className={
                                                                       language === LANGUAGES.VI ? 'btn-vi' : 'btn-en'
                                                                  }
+                                                                 onClick={() => this.handleClickOpenModal(item)}
                                                             >
                                                                  {language === LANGUAGES.VI
                                                                       ? item.timeTypeData.valueVi
