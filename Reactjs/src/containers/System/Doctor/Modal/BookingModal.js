@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './BookingModal.scss';
 import { FormattedMessage } from 'react-intl';
+import ProfileDoctor from '../ProfileDoctor';
+import _ from 'lodash';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 class BookingModal extends Component {
      constructor(props) {
@@ -15,6 +17,9 @@ class BookingModal extends Component {
 
      render() {
           let { isOpen, closeBookingModal, dataScheduleTimeModal } = this.props;
+          let doctorId =
+               dataScheduleTimeModal && !_.isEmpty(dataScheduleTimeModal) ? dataScheduleTimeModal.doctorId : '';
+
           return (
                <>
                     <Modal
@@ -32,10 +37,10 @@ class BookingModal extends Component {
                                    </span>
                               </div>
                               <div className="booking-modal-body">
-                                   <div className="doctor-info"></div>
-                                   <div className="price">
-                                        <span>Giá khám 500,000VNĐ</span>
+                                   <div className="doctor-info">
+                                        <ProfileDoctor doctorId={doctorId} />
                                    </div>
+
                                    <div className="row">
                                         <div className="col-6 form-group">
                                              <label>Họ tên</label>
@@ -70,7 +75,7 @@ class BookingModal extends Component {
                               <div className="booking-modal-footer">
                                    <button className="btn-booking-confirm">Xác nhận</button>
                                    <button className="btn-booking-cancel" onClick={closeBookingModal}>
-                                        Huỷ
+                                        Hủy
                                    </button>
                               </div>
                          </div>
