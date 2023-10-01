@@ -5,6 +5,7 @@
           height: 130px;
           padding: 10px 100px;
           margin-bottom: 10px;
+
           .content-left {
                display: block;
                background: center center no-repeat;
@@ -13,6 +14,7 @@
                border-radius: 50%;
                margin: 0 20px;
                margin-top: 2px;
+               background-size: cover;
                //border: 1px solid green;
           }
           .content-right {

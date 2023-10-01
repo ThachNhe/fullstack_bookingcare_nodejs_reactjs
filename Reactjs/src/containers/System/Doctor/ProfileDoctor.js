@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './ProfileDoctor.scss';
-import { LANGUAGES } from '../../../utils';
+import { LANGUAGES, LanguageUtils } from '../../../utils';
 import { FormattedMessage } from 'react-intl';
 import NumberFormat from 'react-number-format';
 import { getProfileDoctorById } from '../../../services/userService';
+import _ from 'lodash';
+import moment, { lang } from 'moment';
 class ProfileDoctor extends Component {
      constructor(props) {
           super(props);
@@ -33,10 +35,31 @@ class ProfileDoctor extends Component {
                // this.getInfoDoctor(this.props.doctorId);
           }
      }
-
+     renderTimeBooking = (dataTime) => {
+          let { language } = this.props;
+          if (dataTime && !_.isEmpty(dataTime)) {
+               let date =
+                    language === LANGUAGES.VI
+                         ? moment.unix(dataTime.date / 1000).format('dddd - DD/MM/YYYY')
+                         : moment
+                                .unix(dataTime.date / 1000)
+                                .locale('en')
+                                .format('dddd - DD/MM/YYYY');
+               let time = language === LANGUAGES.VI ? dataTime.timeTypeData.valueVi : dataTime.timeTypeData.valueEn;
+               return (
+                    <>
+                         <div>
+                              {time} - {date}
+                         </div>
+                         <div>Miễn phí dặt lịch</div>
+                    </>
+               );
+          }
+     };
      render() {
           let { dataProfile } = this.state;
-          console.log('check state : ', this.state);
+          let { isShowDescription, dataScheduleTimeModal } = this.props;
+          console.log('check state : ', dataScheduleTimeModal);
           let { language } = this.props;
           let nameVi = '';
           let nameEn = '';
@@ -58,9 +81,16 @@ class ProfileDoctor extends Component {
                               <div className="content-right">
                                    <div className="up">{language === LANGUAGES.VI ? nameVi : nameEn}</div>
                                    <div className="down">
-                                        {dataProfile.Markdown && dataProfile.Markdown.description && (
-                                             <span>{dataProfile.Markdown.description}</span>
-                                        )}
+                                        <>
+                                             {isShowDescription === true ? (
+                                                  dataProfile.Markdown &&
+                                                  dataProfile.Markdown.description && (
+                                                       <span>{dataProfile.Markdown.description}</span>
+                                                  )
+                                             ) : (
+                                                  <>{this.renderTimeBooking(dataScheduleTimeModal)}</>
+                                             )}
+                                        </>
                                    </div>
                               </div>
                          </div>
