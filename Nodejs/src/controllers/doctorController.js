@@ -77,7 +77,7 @@ let getScheduleByDate = async (req, res) => {
 };
 let getExtraDoctorInfoById = async (req, res) => {
      try {
-          console.log('check body : ', req.query.doctorId);
+          //console.log('check body : ', req.query.doctorId);
           let response = await doctorService.getExtraDoctorInfoByIdService(req.query.doctorId);
           return res.status(200).json(response);
      } catch (e) {

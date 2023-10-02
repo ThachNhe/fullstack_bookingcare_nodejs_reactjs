@@ -224,7 +224,7 @@ class ManageDoctor extends Component {
           this.setState({
                ...stateCopy,
           });
-          console.log('check state ', selectionOption);
+          //console.log('check state ', selectionOption);
      };
      render() {
           let { selectedDoctor, description, hasOldData, addressClinic, nameClinic, note } = this.state;

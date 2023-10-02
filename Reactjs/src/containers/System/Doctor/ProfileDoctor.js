@@ -59,7 +59,7 @@ class ProfileDoctor extends Component {
      render() {
           let { dataProfile } = this.state;
           let { isShowDescription, dataScheduleTimeModal } = this.props;
-          console.log('check state : ', dataScheduleTimeModal);
+          // console.log('check state : ', dataScheduleTimeModal);
           let { language } = this.props;
           let nameVi = '';
           let nameEn = '';

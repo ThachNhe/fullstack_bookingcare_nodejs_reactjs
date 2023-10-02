@@ -59,7 +59,7 @@ let getAllDoctorService = async () => {
 let saveInfoDoctorService = (body) => {
      return new Promise(async (resolve, reject) => {
           try {
-               console.log('check body : ', body);
+               //console.log('check body : ', body);
                if (
                     !body.doctorId ||
                     !body.contentHTML ||

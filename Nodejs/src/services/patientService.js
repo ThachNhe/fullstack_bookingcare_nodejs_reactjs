@@ -3,6 +3,7 @@ import db from '../models/index';
 let postBookAppointmentService = (body) => {
      return new Promise(async (resolve, reject) => {
           try {
+               console.log('check body : ', body);
                if (!body.email || !body.doctorId || !body.timeType || !body.date) {
                     resolve({
                          errCode: -1,

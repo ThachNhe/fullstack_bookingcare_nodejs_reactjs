@@ -42,7 +42,7 @@ class DoctorExtraInfo extends Component {
      };
      render() {
           let { iShowDetailInfo, extraInfo } = this.state;
-          console.log('check current price : ', extraInfo);
+          //console.log('check current price : ', extraInfo);
           let { language } = this.props;
 
           return (
