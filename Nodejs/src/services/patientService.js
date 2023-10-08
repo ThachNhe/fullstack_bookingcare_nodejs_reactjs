@@ -1,5 +1,5 @@
 import db from '../models/index';
-
+import emailService from './emailService';
 let postBookAppointmentService = (body) => {
      return new Promise(async (resolve, reject) => {
           try {
@@ -10,6 +10,12 @@ let postBookAppointmentService = (body) => {
                          errMessage: 'missing parameter',
                     });
                } else {
+                    await emailService.sendSimpleEmail({
+                         receiverEmail: body.email,
+                         patientName: 'patient',
+                         time: '8h:00 - 9h:00 Chủ nhật 10/08/2023',
+                         doctorName: 'ThachNhe',
+                    });
                     let user = await db.User.findOrCreate({
                          where: { email: body.email },
                          defaults: {
@@ -17,6 +23,7 @@ let postBookAppointmentService = (body) => {
                               roleId: 'R3',
                          },
                     });
+                    // create a booking record
                     if (user && user[0]) {
                          await db.Booking.findOrCreate({
                               where: { patientId: user[0].id },
@@ -29,7 +36,6 @@ let postBookAppointmentService = (body) => {
                               },
                          });
                     }
-                    // create a booking record
                     resolve({
                          errCode: 0,
                          errMessage: 'save patient success',
