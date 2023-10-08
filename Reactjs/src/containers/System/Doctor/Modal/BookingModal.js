@@ -4,13 +4,14 @@ import './BookingModal.scss';
 import { FormattedMessage } from 'react-intl';
 import ProfileDoctor from '../ProfileDoctor';
 import { postPatientBookingAppointment } from '../../../../services/userService';
-import _, { add } from 'lodash';
+import _, { lastIndexOf } from 'lodash';
 import Select from 'react-select';
 import * as actions from '../../../../store/actions';
 import { Modal } from 'reactstrap';
 import DatePicker from '../../../../components/Input/DatePicker';
 import { LANGUAGES } from '../../../../utils';
 import { toast } from 'react-toastify';
+import moment from 'moment';
 class BookingModal extends Component {
      constructor(props) {
           super(props);
@@ -30,7 +31,6 @@ class BookingModal extends Component {
      }
      async componentDidMount() {
           this.props.getGenders();
-          console.log(this.props);
      }
      CheckValidInput = () => {
           let isValid = true;
@@ -106,24 +106,53 @@ class BookingModal extends Component {
                selectedGender: selectedGender,
           });
      };
+     buildTimeBooking = (dataTime) => {
+          let { language } = this.props;
+          if (dataTime && !_.isEmpty(dataTime)) {
+               let date =
+                    language === LANGUAGES.VI
+                         ? moment.unix(dataTime.date / 1000).format('dddd - DD/MM/YYYY')
+                         : moment
+                                .unix(dataTime.date / 1000)
+                                .locale('en')
+                                .format('dddd - DD/MM/YYYY');
+               let time = language === LANGUAGES.VI ? dataTime.timeTypeData.valueVi : dataTime.timeTypeData.valueEn;
+               return `${time} - ${date}`;
+          }
+          return '';
+     };
+     buildDoctorName = (dataTime) => {
+          let { language } = this.props;
+          if (dataTime && !_.isEmpty(dataTime)) {
+               let name =
+                    language === LANGUAGES.VI
+                         ? `${dataTime.doctorData.lastName} ${dataTime.doctorData.firstName}`
+                         : `${dataTime.doctorData.firstName} ${dataTime.doctorData.lastName}`;
+               return name;
+          }
+          return '';
+     };
      handleConfirmBooking = async () => {
           let date = new Date(this.state.date).getTime();
-          let dataPushServer = {
-               fullName: this.state.fullName,
-               phoneNumber: this.state.phoneNumber,
-               email: this.state.email,
-               address: this.state.address,
-               reason: this.state.reason,
-               date: date,
-               gender: this.state.selectedGender.value,
-               doctorId: this.state.doctorId,
-               timeType: this.state.timeType,
-          };
-          console.log('check data push server : ', dataPushServer);
+          let timeString = this.buildTimeBooking(this.props.dataScheduleTimeModal);
+          let doctorName = this.buildDoctorName(this.props.dataScheduleTimeModal);
           let isValid = this.CheckValidInput();
-          console.log('check valid : ', isValid);
+          //console.log('check valid : ', isValid);
           if (isValid) {
-               let res = await postPatientBookingAppointment(dataPushServer);
+               let res = await postPatientBookingAppointment({
+                    fullName: this.state.fullName,
+                    phoneNumber: this.state.phoneNumber,
+                    email: this.state.email,
+                    address: this.state.address,
+                    reason: this.state.reason,
+                    date: date,
+                    gender: this.state.selectedGender.value,
+                    doctorId: this.state.doctorId,
+                    timeType: this.state.timeType,
+                    language: this.props.language,
+                    timeString: timeString,
+                    doctorName: doctorName,
+               });
                if (res && res.errCode === 0) {
                     toast.success('booking schedule success!');
                } else {

@@ -4,7 +4,7 @@ let postBookAppointmentService = (body) => {
      return new Promise(async (resolve, reject) => {
           try {
                console.log('check body : ', body);
-               if (!body.email || !body.doctorId || !body.timeType || !body.date) {
+               if (!body.fullName || !body.email || !body.doctorId || !body.timeType || !body.date) {
                     resolve({
                          errCode: -1,
                          errMessage: 'missing parameter',
@@ -12,9 +12,10 @@ let postBookAppointmentService = (body) => {
                } else {
                     await emailService.sendSimpleEmail({
                          receiverEmail: body.email,
-                         patientName: 'patient',
-                         time: '8h:00 - 9h:00 Chủ nhật 10/08/2023',
-                         doctorName: 'ThachNhe',
+                         patientName: body.fullName,
+                         time: body.timeString,
+                         doctorName: body.doctorName,
+                         language: body.language,
                     });
                     let user = await db.User.findOrCreate({
                          where: { email: body.email },

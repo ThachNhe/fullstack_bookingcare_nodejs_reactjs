@@ -246,7 +246,9 @@ let getScheduleByDateService = (doctorId, date) => {
           try {
                // let convertDate = parseInt(date);
                // let dateTimeConvert = unixToDateTime(convertDate);
-               // console.log(typeof dateTimeConvert);
+               console.log('check dcotocId: ', doctorId);
+               console.log('check date: ', date);
+               ``;
                if (!doctorId || !date) {
                     resolve({
                          errCode: 1,
@@ -260,6 +262,11 @@ let getScheduleByDateService = (doctorId, date) => {
                                    model: db.Allcode,
                                    as: 'timeTypeData',
                                    attributes: ['valueEn', 'valueVi'],
+                              },
+                              {
+                                   model: db.User,
+                                   as: 'doctorData',
+                                   attributes: ['firstName', 'lastName'],
                               },
                          ],
                          raw: true,

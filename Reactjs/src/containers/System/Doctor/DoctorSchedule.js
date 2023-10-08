@@ -22,16 +22,21 @@ class DoctorSchedule extends Component {
           let { language } = this.props;
           let allDays = await this.getArrayDates(language);
           let doctorId = await this.props.doctorIdFromParent;
-          console.log('check doctorId : ', doctorId);
+
           if (allDays && allDays.length > 0) {
+               // console.log('check allDay : ', allDays);
                let res = await getScheduleDoctorByDate(doctorId, allDays[0].value);
+               console.log('check res :', res);
                this.setState({
                     allAvailableTimes: res.data ? res.data : [],
                });
           }
-          this.setState({
-               allDays: allDays,
-          });
+          this.setState(
+               {
+                    allDays: allDays,
+               },
+               () => {},
+          );
      }
      capitalizeFirstLetter = (string) => {
           return string.charAt(0).toUpperCase() + string.slice(1);
@@ -99,6 +104,7 @@ class DoctorSchedule extends Component {
      };
      render() {
           let { allDays, allAvailableTimes, dataScheduleTimeModal } = this.state;
+          console.log('check availabel time: ', allAvailableTimes);
           let { language } = this.props;
           return (
                <>
