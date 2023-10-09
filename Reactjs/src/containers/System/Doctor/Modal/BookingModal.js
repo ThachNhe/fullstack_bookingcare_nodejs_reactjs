@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './BookingModal.scss';
-import { FormattedMessage } from 'react-intl';
 import ProfileDoctor from '../ProfileDoctor';
 import { postPatientBookingAppointment } from '../../../../services/userService';
-import _, { lastIndexOf } from 'lodash';
+import _ from 'lodash';
 import Select from 'react-select';
 import * as actions from '../../../../store/actions';
 import { Modal } from 'reactstrap';

@@ -7,7 +7,6 @@ let sendSimpleEmail = async (dataSend) => {
           port: 465,
           secure: true,
           auth: {
-               // TODO: replace `user` and `pass` values from <https://forwardemail.net>
                user: process.env.EMAIL_APP,
                pass: process.env.EMAIL_APP_PASSWORD,
           },
@@ -30,7 +29,7 @@ let GetBodyHTML = (dataSend) => {
           <div><b>Bác sĩ : ${dataSend.doctorName}</b></div>
           <p>Nếu các thông tin là đúng vui lòng ấn vào link bên dưới để xác nhận hoàn tất thủ tục đặt lịch khám bệnh</p>
           <div>
-          <a href="https://www.facebook.com/" target="_blank">Click here</a>
+          <a href= ${dataSend.redirectLink} target="_blank">Click here</a>
           </div>
           <div>Xin chân thành cảm ơn!</div>`;
      }
@@ -42,7 +41,7 @@ let GetBodyHTML = (dataSend) => {
           <div><b>Doctor : ${dataSend.doctorName}</b></div>
           <p>If the information is correct, please click on the link below to confirm completion of the medical examination appointment procedure</p>
           <div>
-          <a href="https://www.facebook.com/" target="_blank">Click here</a>
+          <a href= ${dataSend.redirectLink} target="_blank">Click here</a>
           </div>
           <div>Sincerely thank!</div>`;
      }
