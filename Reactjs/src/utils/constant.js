@@ -6,6 +6,7 @@ export const path = {
      HOMEPAGE: '/home',
      DETAIL_DOCTOR: '/detail-doctor/:id',
      DOCTOR: '/doctor',
+     VERIFY_EMAIL_BOOKING: '/verify-booking',
 };
 
 export const LANGUAGES = {

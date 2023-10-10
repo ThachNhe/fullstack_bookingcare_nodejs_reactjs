@@ -2,13 +2,13 @@ import db from '../models/index';
 import emailService from './emailService';
 import { v4 as uuidv4 } from 'uuid';
 let buildUrlEmail = (doctorId, token) => {
-     let result = `${process.env.URL_REACT}/verify-booking?token=${token}&doctorId=${doctorId}}`;
+     let result = `${process.env.URL_REACT}/verify-booking?token=${token}&doctorId=${doctorId}`;
      return result;
 };
 let postBookAppointmentService = (body) => {
      return new Promise(async (resolve, reject) => {
           try {
-               console.log('check body : ', body);
+               // console.log('check body : ', body);
                if (!body.fullName || !body.email || !body.doctorId || !body.timeType || !body.date) {
                     resolve({
                          errCode: -1,
@@ -72,6 +72,7 @@ let postVerifyBookAppointmentService = (body) => {
                     if (appointment) {
                          appointment.statusId = 'S2';
                          await appointment.save();
+
                          resolve({
                               errCode: 0,
                               errMessage: 'update appointment success',
