@@ -1,0 +1,25 @@
+.manage-specialty-container {
+     padding: 0 15px;
+     .ms-title {
+          text-align: center;
+          margin: 10px 0;
+          text-transform: uppercase;
+          font-size: 17px;
+          font-weight: 600;
+     }
+     .add-new-specialty {
+          .md-editor {
+          }
+          .btn-save-specialty {
+               border: none;
+               padding: 8px 5px;
+               background-color: #ddd;
+               min-width: 75px;
+               border-radius: 3px;
+               margin: 10px -2px;
+               &:hover {
+                    background-color: gray;
+               }
+          }
+     }
+}
